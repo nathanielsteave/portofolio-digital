@@ -1,0 +1,349 @@
+@layer base {
+  :root {
+    color-scheme: dark;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    min-width: 320px;
+    background: var(--color-void);
+    scrollbar-gutter: stable;
+  }
+
+  html:not([data-motion='off']) {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100svh;
+    overflow-x: clip;
+    background: var(--color-void);
+    color: var(--color-bone);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+  }
+
+  body::before {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    pointer-events: none;
+    content: '';
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  }
+
+  a,
+  button,
+  summary,
+  label[for],
+  select,
+  input[type='checkbox'],
+  input[type='radio'],
+  [role='button'] {
+    cursor: pointer;
+  }
+
+  :disabled,
+  [aria-disabled='true'] {
+    cursor: not-allowed;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ion);
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background: var(--color-ion);
+    color: var(--color-void);
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  dialog {
+    color: inherit;
+  }
+
+  dialog::backdrop {
+    background: rgb(5 7 12 / 0.86);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  html[data-motion='off'] {
+    scroll-behavior: auto;
+  }
+
+  html[data-motion='off'] *,
+  html[data-motion='off'] *::before,
+  html[data-motion='off'] *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@layer components {
+  .static-atmosphere {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 90% 70% at 72% 42%, #0b1730 0%, #070c18 38%, #05070c 74%),
+      #05070c;
+  }
+
+  .static-stars {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.5;
+    background-image:
+      radial-gradient(1px 1px at 8% 18%, rgb(232 237 247 / 0.7) 50%, transparent 51%),
+      radial-gradient(1px 1px at 18% 72%, rgb(232 237 247 / 0.45) 50%, transparent 51%),
+      radial-gradient(1px 1px at 29% 32%, rgb(232 237 247 / 0.7) 50%, transparent 51%),
+      radial-gradient(1px 1px at 36% 88%, rgb(232 237 247 / 0.35) 50%, transparent 51%),
+      radial-gradient(1px 1px at 44% 12%, rgb(232 237 247 / 0.55) 50%, transparent 51%),
+      radial-gradient(1px 1px at 53% 62%, rgb(232 237 247 / 0.85) 50%, transparent 51%),
+      radial-gradient(1px 1px at 64% 23%, rgb(232 237 247 / 0.45) 50%, transparent 51%),
+      radial-gradient(1px 1px at 71% 78%, rgb(232 237 247 / 0.7) 50%, transparent 51%),
+      radial-gradient(1px 1px at 79% 41%, rgb(232 237 247 / 0.4) 50%, transparent 51%),
+      radial-gradient(1px 1px at 87% 14%, rgb(232 237 247 / 0.6) 50%, transparent 51%),
+      radial-gradient(1px 1px at 93% 66%, rgb(232 237 247 / 0.5) 50%, transparent 51%),
+      radial-gradient(1px 1px at 12% 44%, rgb(95 227 255 / 0.55) 50%, transparent 51%),
+      radial-gradient(1px 1px at 82% 88%, rgb(139 124 255 / 0.45) 50%, transparent 51%);
+  }
+
+  .static-scene {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 1;
+    transition: opacity 900ms var(--ease-out-expo);
+  }
+
+  .static-scene[data-hidden='true'] {
+    opacity: 0;
+  }
+
+  .static-planet {
+    position: absolute;
+    top: 14%;
+    right: 2%;
+    width: clamp(280px, 40vw, 680px);
+    aspect-ratio: 1;
+    border: 1px solid rgb(95 227 255 / 0.16);
+    border-radius: 50%;
+    background: radial-gradient(circle at 32% 26%, #1b2e50 0%, #0b1426 38%, #060a12 70%);
+    box-shadow:
+      inset -50px -60px 110px rgb(0 0 0 / 0.82),
+      inset 22px 16px 70px rgb(95 227 255 / 0.05);
+  }
+
+  .static-ring {
+    position: absolute;
+    top: 29%;
+    right: -4%;
+    width: clamp(380px, 54vw, 900px);
+    height: clamp(140px, 18vw, 280px);
+    border: 1px solid rgb(139 124 255 / 0.24);
+    border-radius: 50%;
+    transform: rotate(-17deg);
+  }
+
+  .static-island {
+    position: absolute;
+    right: 21%;
+    bottom: 16%;
+    width: clamp(150px, 18vw, 290px);
+    height: clamp(74px, 9vw, 132px);
+    background: linear-gradient(180deg, #1a2941 0%, #0c1526 44%, #05080f 100%);
+    clip-path: polygon(8% 8%, 32% 0%, 68% 4%, 94% 16%, 100% 44%, 82% 100%, 46% 78%, 18% 92%, 0% 40%);
+    filter: drop-shadow(0 24px 32px rgb(0 0 0 / 0.55));
+  }
+
+  .static-island::after {
+    position: absolute;
+    top: 10%;
+    left: 52%;
+    width: 1px;
+    height: 52%;
+    content: '';
+    background: var(--color-ion);
+    box-shadow: 0 0 9px rgb(95 227 255 / 0.65);
+  }
+
+  .scene-layer {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 900ms var(--ease-out-expo);
+  }
+
+  .scene-layer[data-ready='true'] {
+    opacity: 1;
+  }
+
+  .scene-layer canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  .hero-scrim {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background:
+      linear-gradient(
+        90deg,
+        #05070c 0%,
+        rgb(5 7 12 / 0.94) 24%,
+        rgb(5 7 12 / 0.58) 48%,
+        rgb(5 7 12 / 0.12) 68%,
+        transparent 82%
+      ),
+      linear-gradient(180deg, transparent 52%, rgb(5 7 12 / 0.5) 78%, #05070c 100%);
+  }
+
+  .zone-dialog {
+    width: min(92vw, 560px);
+    max-width: none;
+    height: 100dvh;
+    max-height: none;
+    margin: 0 0 0 auto;
+    padding: 0;
+    border: 0;
+    border-left: 1px solid var(--color-line);
+    background: #070b13;
+    color: var(--color-bone);
+  }
+
+  .zone-dialog[open] {
+    animation: dialog-in 420ms var(--ease-out-expo) both;
+  }
+
+  @keyframes dialog-in {
+    from {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .scroll-cue-line {
+    position: relative;
+    width: 1px;
+    height: 46px;
+    overflow: hidden;
+    background: rgb(232 237 247 / 0.16);
+  }
+
+  .scroll-cue-line::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: 14px;
+    content: '';
+    background: var(--color-ion);
+    animation: cue-drift 2.6s var(--ease-out-expo) infinite;
+  }
+
+  @keyframes cue-drift {
+    0% {
+      transform: translateY(-16px);
+      opacity: 0;
+    }
+    25% {
+      opacity: 1;
+    }
+    75% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(50px);
+      opacity: 0;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .static-planet {
+      top: 7%;
+      right: -26%;
+      width: 82vw;
+      opacity: 0.72;
+    }
+
+    .static-ring {
+      top: 18%;
+      right: -34%;
+      width: 112vw;
+    }
+
+    .static-island {
+      right: 12%;
+      bottom: 23%;
+      width: 42vw;
+      height: 20vw;
+      opacity: 0.58;
+    }
+
+    .hero-scrim {
+      background:
+        linear-gradient(
+          180deg,
+          rgb(5 7 12 / 0.2) 0%,
+          rgb(5 7 12 / 0.52) 38%,
+          rgb(5 7 12 / 0.9) 68%,
+          #05070c 92%
+        ),
+        linear-gradient(90deg, rgb(5 7 12 / 0.32) 0%, transparent 60%);
+    }
+
+    .zone-dialog {
+      width: 100vw;
+      border-left: 0;
+    }
+  }
+}
